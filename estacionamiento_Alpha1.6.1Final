@@ -1,0 +1,404 @@
+Algoritmo sin_titulo
+	salirAdmin <- 'f'
+	salirSistema <- 'f'
+	admin <- 'admin'
+	preciosAutos <- 1500
+	preciosMotos <- 800
+	preciosCamionetas <- 1800
+	Dimension estacionamiento[3,10]
+	Dimension estacionamientoMotos[20]
+	contadorLugaresAC <- 0
+	contadorLugaresMotos <- 0
+	recaudacionAutos <- 0
+	recaudacionCamionetas <- 0
+	recaudacionMotos <- 0
+	Definir op,opd,opa Como Caracter
+	Definir ban Como Logico
+	ban <- Falso
+	Mientras salirSistema='f' Hacer
+		Escribir 'Bienvenido al estacionamiento FC43'
+		Escribir 'Seleccione una opcion: '
+		Escribir '1. Ver precios'
+		Escribir '2. Ingresar vehiculo'
+		Escribir '3. Sacar vehiculo'
+		Escribir '4. Ver disponibilidad de estacionamientos.'
+		Escribir '5. Panel de Administrador'
+		Si salirAdmin='v' Entonces
+			salirAdmin <- 'f'
+		FinSi
+		Leer op
+		Segun op  Hacer
+			'1':
+				Borrar Pantalla
+				mostrarPrecio(a)
+				Escribir 'pulse una tecla para continuar'
+				Esperar Tecla
+				Borrar Pantalla
+			'2':
+				ban <- Falso
+				Mientras ban=Falso Hacer
+					Borrar Pantalla
+					Escribir 'Desea ingresar 1: moto'
+					Escribir 'Desea ingresar 2: auto'
+					Escribir 'Desea ingresar 3: camioneta'
+					Leer ingresarTipo
+					Si ingresarTipo='moto' O ingresarTipo='1' Entonces
+						Si contadorLugaresMotos<=20 Entonces
+							Para i<-1 Hasta 20 Hacer
+								Escribir 'Lugar ',(i),' disponibles: ',estacionamientoMotos[i]
+							FinPara
+							Escribir 'pulse una tecla para continuar'
+							Esperar Tecla
+							Borrar Pantalla
+							Escribir 'Ingrese lugar donde desea estacionar: (1/20) '
+							Repetir
+								Si filaMoto>20 Entonces
+									Escribir 'opcion invalida: escoja una fila entre 1 y 20 '
+								FinSi
+								Leer filaMoto
+							Hasta Que filaMoto>=1 Y filaMoto<=20
+							Borrar Pantalla
+							Escribir 'Ingrese los ultimos 3 numeros de su patente: '
+							Para i<-filaMoto Hasta filaMoto Hacer
+								Repetir
+									Leer patenteMoto
+								Hasta Que patenteMoto>=100 Y patenteMoto<=999
+								estacionamientoMotos[i] <- patenteMoto
+							FinPara
+							Para i<-1 Hasta 20 Hacer
+								Escribir 'Lugar ',(i),' ocupado: ',estacionamientoMotos[i]
+							FinPara
+							Esperar 2 Segundos
+							Borrar Pantalla
+							contadorLugaresMotos <- contadorLugaresMotos+1
+							ban <- Verdadero
+						SiNo
+							Escribir 'No hay espacio en el estacionamiento de motos'
+							Esperar 2 Segundos
+							Borrar Pantalla
+						FinSi
+					SiNo
+						Si contadorLugaresAC<=30 Entonces
+							Si ingresarTipo='auto' O ingresarTipo='2' O ingresarTipo='camioneta' O ingresarTipo='3' Entonces
+								Borrar Pantalla
+								Para i<-1 Hasta 3 Hacer
+									Para j<-1 Hasta 10 Hacer
+										Escribir 'piso ',(i),' lugar ',(j),' ocupado por: ',estacionamiento[i,j]
+									FinPara
+								FinPara
+								Escribir 'pulse una tecla para continuar'
+								Esperar Tecla
+								Borrar Pantalla
+								Escribir 'Ingrese el piso donde desea estacionar: 1/3'
+								Repetir
+									Si piso>3 Entonces
+										Escribir 'ERROR: escoja un número entre 1 y 3'
+									FinSi
+									Leer piso
+								Hasta Que piso>=1 Y piso<=3
+								Borrar Pantalla
+								Escribir 'Ingrese lugar donde desea estacionar: 1/10'
+								Repetir
+									Si lugar>10 Entonces
+										Escribir 'ERROR: escoja un número entre 1 y 10'
+									FinSi
+									Leer lugar
+								Hasta Que lugar>=1 Y lugar<=10
+								Para i<-piso Hasta piso Hacer
+									Para j<-lugar Hasta lugar Hacer
+										Escribir 'Ingrese los ultimos 3 numero de su patente: '
+										Repetir
+											Leer digitoPatente
+											Si digitoPatente<100 O digitoPatente>999 Entonces
+												Escribir 'ERROR: ingrese una patente SOLO de 3 DIGITOS'
+											FinSi
+										Hasta Que digitoPatente>=100 Y digitoPatente<=999
+										estacionamiento[i,j]<-digitoPatente
+										contadorLugaresAC <- contadorLugaresAC+1
+									FinPara
+								FinPara
+								Para i<-1 Hasta 3 Hacer
+									Para j<-1 Hasta 10 Hacer
+										Escribir 'Piso',(i),' Lugar ',(j),' ocupado por: ',estacionamiento[i,j]
+									FinPara
+								FinPara
+								Escribir 'pulse una tecla para continuar'
+								Esperar Tecla
+								Borrar Pantalla
+								ban <- Verdadero
+							SiNo
+								Borrar Pantalla
+								Escribir 'Ingreso una opcion erronea.'
+								Esperar 2 Segundos
+								Borrar Pantalla
+							FinSi
+						SiNo
+							Borrar Pantalla
+							Escribir 'Estacionamiento lleno.'
+							Esperar 2 Segundos
+							Borrar Pantalla
+							ban <- Verdadero
+						FinSi
+					FinSi
+				FinMientras
+			'3':
+				Borrar Pantalla
+				Escribir 'Ingrese su tipo de vehiculo: moto/auto/camioneta'
+				Escribir '1: moto'
+				Escribir '2: auto'
+				Escribir '3: camioneta'
+				Leer tipoVehiculo
+				Borrar Pantalla
+				Si tipoVehiculo='moto' O tipoVehiculo='1' Entonces
+					Escribir 'Ingrese los ultimos 3 numeros de su patente: '
+					Leer eliminarMoto
+					Repetir
+					
+					Hasta Que eliminarMoto>=100 Y eliminarMoto<=999
+					baneliminarMoto = falso
+					Para i<-1 Hasta 20 Hacer
+						Si estacionamientoMotos[i]=eliminarMoto Entonces
+							estacionamientoMotos[i] <- estacionamientoMotos[i]-estacionamientoMotos[i]
+							Escribir 'Se elimino patente de moto numero: ',eliminarMoto
+							recaudacionMotos <- recaudacionMotos+preciosMotos
+							contadorLugaresMotos <- contadorLugaresMotos-1
+						SiNo
+							baneliminarMoto = verdadero
+						FinSi
+					FinPara
+					Si baneliminarMoto= verdadero Entonces
+						Escribir "La patente ingresada NO existe"
+					FinSi
+					Esperar 2 Segundos
+					Borrar Pantalla
+				SiNo
+					Si tipoVehiculo='auto' O tipoVehiculo='2' O tipoVehiculo='camioneta' O tipoVehiculo='3' Entonces
+						Escribir 'Ingrese su numero de patente: '
+						Repetir
+							Leer eliminarAutoCamioneta
+						Hasta Que eliminarAutoCamioneta>=100 Y eliminarAutoCamioneta<=999
+						baneliminar = falso
+						Para i<-1 Hasta 3 Hacer
+							Para j<-1 Hasta 10 Hacer
+								Si estacionamiento[i,j]=eliminarAutoCamioneta Entonces
+									estacionamiento[i,j]<-estacionamiento[i,j]-estacionamiento[i,j]
+									Si tipoVehiculo='auto' O tipoVehiculo='2' Entonces
+										Escribir 'Se elimino patente de auto numero: ',eliminarAutoCamioneta
+										recaudacionAutos <- recaudacionAutos+preciosAutos
+									SiNo
+										Escribir 'Se elimino patente de camioneta: ',eliminarAutoCamioneta
+										recaudacionCamionetas <- recaudacionCamionetas+preciosCamionetas
+									FinSi
+									contadorLugaresAC <- contadorLugaresAC-1
+								SiNo
+									baneliminar = verdadero
+								FinSi
+							FinPara
+						FinPara
+						Si baneliminar=verdadero Entonces
+							Escribir "La patente ingresada NO existe"
+						FinSi
+						Esperar 2 Segundos
+						Borrar Pantalla
+					SiNo
+						Borrar Pantalla
+						Escribir 'Ingreso un vehiculo erroneo'
+						Esperar 2 Segundos
+						Borrar Pantalla
+					FinSi
+				FinSi
+			'4':
+				ban <- Falso
+				Mientras ban=Falso Hacer
+					Borrar Pantalla
+					Escribir 'Selecciona que estacionamiento desea ver disponibilidad'
+					Escribir '1- Estacionamiento de Motos'
+					Escribir '2- Estacionamiento de Autos/Camionetas'
+					Escribir '3- Total de vehiculos por tipo en estacionamiento'
+					Leer opd
+					Segun opd  Hacer
+						'1':
+							Para i<-1 Hasta 20 Hacer
+								Escribir 'lugar ',(i),' ocupado por: ',estacionamientoMotos[i]
+							FinPara
+							Escribir 'pulse una tecla para continuar'
+							Esperar Tecla
+							Borrar Pantalla
+							ban <- Verdadero
+						'2':
+							Para i<-1 Hasta 3 Hacer
+								Para j<-1 Hasta 10 Hacer
+									Escribir 'piso ',(i),' lugar ',(j),' ocupado por: ',estacionamiento[i,j]
+								FinPara
+							FinPara
+							Escribir 'pulse una tecla para continuar'
+							Esperar Tecla
+							Borrar Pantalla
+							ban <- Verdadero
+						'3':
+							Escribir 'Total de autos y camionetas ingresadas en estacionamiento: ',contadorLugaresAC
+							Escribir 'Total motos ingresadas en estacionamineto: ',contadorLugaresMotos
+							Escribir 'pulse una tecla para continuar'
+							Esperar Tecla
+							Borrar Pantalla
+							ban <- Verdadero
+						De Otro Modo:
+							Borrar Pantalla
+							Escribir 'OPCION NO VALIDA: Escoja una opcion entre 1 y 3'
+							Esperar 2 Segundos
+							Borrar Pantalla
+					FinSegun
+				FinMientras
+			'5':
+				Borrar Pantalla
+				Escribir 'Bienvenido al panel de Administrador!'
+				Escribir 'Ingrese la contraseña'
+				Leer ADMINCONTRASENA
+				Si admin=ADMINCONTRASENA Entonces
+					Mientras salirAdmin='f' Hacer
+						Borrar Pantalla
+						Escribir 'Seleccione una opcion: '
+						Escribir '1. Ver recaudacion'
+						Escribir '2. Posicionar vehiculos'
+						Escribir '3. Salir de admin'
+						Escribir '4. Cerrar estacionamiento(Apagar sistema)'
+						Leer opa
+						Segun opa  Hacer
+							'1':
+								Borrar Pantalla
+								Escribir 'Recaudacion de Motos: $',recaudacionMotos
+								Escribir 'Recaudacion de Autos: $',recaudacionAutos
+								Escribir 'Recaudacion de Camionetas: $',recaudacionCamionetas
+								recaudacionTotal <- recaudacionMotos+recaudacionAutos+recaudacionCamionetas
+								Escribir 'Total recaudado es: ',recaudacionTotal
+								Escribir 'pulse una tecla para continuar'
+								Esperar Tecla
+								Borrar Pantalla
+							'2':
+								Borrar Pantalla
+								Escribir 'Ingrese el tipo de vehiculo: auto/moto/camioneta'
+								Escribir '1: moto'
+								Escribir '2: auto'
+								Escribir '3: camioneta'
+								Leer reubicarTipo
+								Si reubicarTipo='moto' O reubicarTipo='1' Entonces
+									Borrar Pantalla
+									Escribir 'Ingrese el número de patente'
+									Repetir
+										Leer reubicarPatenteMoto
+									Hasta Que reubicarPatenteMoto>=100 Y reubicarPatenteMoto<=999
+									encontrado <- Falso
+									Para i<-1 Hasta 20 Hacer
+										Si estacionamientoMotos[i]=reubicarPatenteMoto Entonces
+											encontrado <- Verdadero
+											posAnterior <- i
+										FinSi
+									FinPara
+									Si encontrado=Falso Entonces
+										Escribir 'No se encontró la moto con esa patente.'
+										Esperar 2 Segundos
+										Borrar Pantalla
+									SiNo
+										// Eliminar de la posición anterior
+										estacionamientoMotos[posAnterior] <- 0
+										// Mostrar lugares vacíos
+										Escribir 'Lugares disponibles para reubicar:'
+										Para i<-1 Hasta 20 Hacer
+											Si estacionamientoMotos[i]=0 Entonces
+												Escribir 'Posición ',i,' está disponible.'
+											FinSi
+											// Elegir nuevo lugar
+										FinPara
+										Repetir
+											Escribir 'Ingrese nueva posición (0 a 19):'
+											Leer nuevaPos
+										Hasta Que nuevaPos>=1 Y nuevaPos<=20 Y estacionamientoMotos[nuevaPos]=0
+										estacionamientoMotos[nuevaPos] <- reubicarPatenteMoto
+										Escribir 'Moto reubicada correctamente en posición ',nuevaPos
+									FinSi
+									Escribir 'pulse una tecla para continuar'
+									Esperar Tecla
+									ban <- Verdadero
+									Borrar Pantalla
+								SiNo
+									Si reubicarTipo='auto' O reubicarTipo='2' O reubicarTipo='camioneta' O reubicarTipo='3' Entonces
+										Borrar Pantalla
+										Escribir 'Lugares disponibles: '
+										Para i<-1 Hasta 3 Hacer
+											Para j<-1 Hasta 10 Hacer
+												Si estacionamiento[i,j]=0 Entonces
+													Escribir 'Piso ',i,' Lugar ',j,' Disponible.'
+												FinSi
+											FinPara
+										FinPara
+										Escribir 'Ingrese su patente'
+										Repetir
+											Leer reubicarPatenteVehiculo
+										Hasta Que reubicarPatenteVehiculo>=100 Y reubicarPatenteVehiculo<=999
+										// Buscar y eliminar vehículo anterior
+										encontrado <- Falso
+										Para i<-1 Hasta 3 Hacer
+											Para j<-1 Hasta 10 Hacer
+												Si estacionamiento[i,j]=reubicarPatenteVehiculo Entonces
+													encontrado <- Verdadero
+													guardarPatente <- estacionamiento[i,j]
+													estacionamiento[i,j]<-0
+												FinSi
+											FinPara
+										FinPara
+										Si encontrado=Falso Entonces
+											Escribir 'No se encontró la patente de ese vehículo'
+										SiNo
+											Escribir '¿En qué lugar desea reubicarlo?'
+											Escribir 'Piso: '
+											Repetir
+												Leer reubicarPiso
+											Hasta Que reubicarPiso>=1 Y reubicarPiso<=3
+											Escribir 'Lugar: '
+											Repetir
+												Leer reubicarLugar
+											Hasta Que reubicarLugar>=1 Y reubicarLugar<=10
+											estacionamiento[reubicarPiso,reubicarLugar]<-guardarPatente
+											Escribir 'Vehículo reubicado correctamente.'
+										FinSi
+										// Reubicar en el nuevo lugar
+									SiNo
+										Escribir 'Ingreso un tipo de vehículo erróneo.'
+									FinSi
+									Escribir 'pulse una tecla para continuar'
+									Esperar Tecla
+									ban <- Verdadero
+									Borrar Pantalla
+								FinSi
+							'3':
+								salirAdmin <- 'v'
+								Borrar Pantalla
+							'4':
+								salirSistema <- 'v'
+								salirAdmin <- 'v'
+								Borrar Pantalla
+							De Otro Modo:
+								Escribir 'ERROR: escoja una opcion entre 1 y 4'
+								Esperar 2 Segundos
+						FinSegun
+					FinMientras
+				SiNo
+					Escribir 'Contraseña incorrecta'
+				FinSi
+			De Otro Modo:
+				Borrar Pantalla
+				Escribir 'Error, ingrese un numero del 1 al 5'
+				Esperar 2 Segundos
+				Borrar Pantalla
+		FinSegun
+	FinMientras
+FinAlgoritmo
+
+Funcion mostrarPrecio(a)
+	preciosAutos <- 1500
+	preciosMotos <- 800
+	preciosCamionetas <- 1800
+	Escribir 'Precio de autos: ',preciosAutos
+	Escribir 'Precio de motos: ',preciosMotos
+	Escribir 'Precios de camioneta: ',preciosCamionetas
+FinFuncion
